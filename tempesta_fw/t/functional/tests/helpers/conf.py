@@ -77,3 +77,8 @@ class TFWConfig(Config):
 class ApacheConfig(Config):
 	def __init__(self):
 		Config.__init__(self, '/etc/apache2/apache2.conf', new=False)
+
+	def add_vhost(self, name):
+		hconf = Config('/etc/apache2/sites-available/' + name + '.conf',
+			       new=True)
+		hconf.add_string("<VirtualHost *:80>")
