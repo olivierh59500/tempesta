@@ -808,8 +808,10 @@ tfw_http_msg_alloc(int type)
 
 	hm->parser.to_read = -1; /* unknown body size */
 
-	if (type & Conn_Clnt)
+	if (type & Conn_Clnt) {
+		INIT_LIST_HEAD(&((TfwHttpReq *)hm)->nip_list);
 		hm->destructor = tfw_http_req_destruct;
+	}
 
 	return hm;
 }

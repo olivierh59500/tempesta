@@ -776,7 +776,6 @@ tfw_http_conn_msg_alloc(TfwConnection *conn)
 	tfw_connection_get(conn);
 
 	if (TFW_CONN_TYPE(conn) & Conn_Clnt) {
-		INIT_LIST_HEAD(&((TfwHttpReq *)hm)->nip_list);
 		TFW_INC_STAT_BH(clnt.rx_messages);
 	} else {
 		TfwHttpReq *req;
@@ -1443,14 +1442,8 @@ tfw_http_req_cache_cb(TfwHttpReq *req, TfwHttpResp *resp)
 	tfw_http_req_fwd(srv_conn, req);
 	goto conn_put;
 
-<<<<<<< HEAD
 send_502:
 	tfw_http_send_502(req);
-	tfw_http_conn_msg_free((TfwHttpMsg *)req);
-=======
-send_404:
-	tfw_http_send_404(req);
->>>>>>> Send responses in correct order - first working version. (#419)
 	TFW_INC_STAT_BH(clnt.msgs_otherr);
 	return;
 send_500:
