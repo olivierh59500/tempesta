@@ -6,6 +6,10 @@ __license__ = 'GPL2'
 
 import subprocess
 
+def link_vhost(name):
+	p = subprocess.Popen(["ln", "-s", "/etc/apache2/sites-available/" 
++ name, "/etc/apache2/sites-enabled"], stdout=subprocess.PIPE)
+
 
 def is_apache():
 	try:

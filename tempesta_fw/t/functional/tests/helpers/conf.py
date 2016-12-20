@@ -6,6 +6,7 @@ __license__ = 'GPL2'
 import os
 from os.path import dirname, realpath
 import fileinput
+import apache
 
 be_port = 0
 tempesta_root = ""
@@ -75,10 +76,22 @@ class TFWConfig(Config):
 				new=True)
 
 class ApacheConfig(Config):
+	curr_port = 8088
 	def __init__(self):
 		Config.__init__(self, '/etc/apache2/apache2.conf', new=False)
 
 	def add_vhost(self, name):
+		self.curr_port += 1
 		hconf = Config('/etc/apache2/sites-available/' + name + '.conf',
 			       new=True)
-		hconf.add_string("<VirtualHost *:80>")
+		hconf.add_string("<VirtualHost *:" + str(self.curr_port) + ">")
+		hconf.add_string("\tDocumentRoot /var/www/sched/html")
+		hconf.add_string("\tHeader set Vhost: \"" + name + "\"")
+		hconf.add_string("</VirtualHost>")
+		ports = Config('/etc/apache2/ports.conf', new=False)
+		ports.del_option(str(self.curr_port))
+		ports.add_string('\tListen ' + str(self.curr_port))
+		apache.link_vhost(name + '.conf')
+		return self.curr_port
+
+
