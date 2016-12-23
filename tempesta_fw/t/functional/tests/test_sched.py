@@ -37,12 +37,8 @@ class Test:
 		
 	
 	def run(self):
-		for x in range(1, 25):
-			self.add_sg(x)
-		for x in range(1, 25):
-			self.add_sg(x)
-		for x in range(1, 25):
-			self.add_sg(x)
+		for x in range(1, 100):
+			self.add_sg(2)
 #		self.add_sg(5, sched='round-robin')
 #		self.add_sg(5, sched='hash')
 		self.add_rules('sched')
