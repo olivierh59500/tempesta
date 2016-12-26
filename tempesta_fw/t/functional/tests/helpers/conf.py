@@ -78,20 +78,35 @@ class TFWConfig(Config):
 class ApacheConfig(Config):
 	curr_port = 8088
 	def __init__(self):
-		Config.__init__(self, '/etc/apache2/apache2.conf', new=False)
+		if apache.get_dist() == 'debian':
+			Config.__init__(self, '/etc/apache2/apache2.conf',
+					new=False)
+		else:
+			Config.__init__(self, '/etc/httpd/conf/httpd.conf',
+					new=False)
 
 	def add_vhost(self, name):
 		self.curr_port += 1
-		hconf = Config('/etc/apache2/sites-available/' + name + '.conf',
-			       new=True)
-		hconf.add_string("<VirtualHost *:" + str(self.curr_port) + ">")
-		hconf.add_string("\tDocumentRoot /var/www/sched/html")
-		hconf.add_string("\tHeader set Vhost: \"" + name + "\"")
-		hconf.add_string("</VirtualHost>")
-		ports = Config('/etc/apache2/ports.conf', new=False)
-		ports.del_option(str(self.curr_port))
-		ports.add_string('\tListen ' + str(self.curr_port))
-		apache.link_vhost(name + '.conf')
+		if apache.get_dist() == 'debian':
+			hconf = Config('/etc/apache2/sites-available/' + name +
+				       '.conf',new=True)
+			hconf.add_string("<VirtualHost *:" +
+					 str(self.curr_port)+ ">")
+			hconf.add_string("\tDocumentRoot /var/www/sched/html")
+			hconf.add_string("\tHeader set Vhost: \"" + name + "\"")
+			hconf.add_string("</VirtualHost>")
+			ports = Config('/etc/apache2/ports.conf', new=False)
+			ports.del_option(str(self.curr_port))
+			ports.add_string('\tListen ' + str(self.curr_port))
+			apache.link_vhost(name + '.conf')
+		else:
+			self.add_string("<VirtualHost *:" +
+					 str(self.curr_port)+ ">")
+			self.add_string("\tDocumentRoot /var/www/sched/html")
+			self.add_string("\tHeader set Vhost: \"" + name + "\"")
+			self.add_string("</VirtualHost>")
+			self.add_string('Listen ' + str(self.curr_port))
+
 		return self.curr_port
 
 
