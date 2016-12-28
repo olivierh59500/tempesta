@@ -31,6 +31,9 @@ class Test:
 		self.cfg.add_string("")
 		self.cfg.add_section('sched_http_rules')
 		for x in range(1, self.sg_curr):
+			if x == 1:
+				self.cfg.add_option('match ' + 'group' + 
+					    str(x), ' * * *')
 			self.cfg.add_option('match ' + 'group' + 
 					    str(x),' host eq '+
 					    host + str(x))
