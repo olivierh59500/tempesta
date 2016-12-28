@@ -48,7 +48,7 @@ class Test:
 		apache.start()
 		tfw.start()
 		print("tfw started")
-		apache.run_ab(params)
+		apache.run_ab()
 	
 	def get_name(self):
 		return 'test schedulers'

@@ -60,8 +60,9 @@ def start():
 	else:
 		print("apache is not installed\n")
 
-def run_ab(params):
+def run_ab():
 	p = subprocess.Popen(["ab", "http://127.0.0.1:8081/"], stdout=subprocess.PIPE)
 	out = p.stdout.read()
-	print("ab:", out)
-
+	if len(out) > 0:
+		for s in out.split('\n'):
+			print(s)
