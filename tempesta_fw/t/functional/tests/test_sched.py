@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+__author__ = 'Tempesta Technologies Inc.'
+__copyright__ = 'Copyright (C) 2016 Tempesta Technologies. (info@natsys-lab.com).'
+__license__ = 'GPL2'
+
 # #659 A functional test of schedulers of the Tempesta.
 
 import apache

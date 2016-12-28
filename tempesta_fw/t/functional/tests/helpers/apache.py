@@ -38,6 +38,7 @@ def get_dist():
 	else:
 		if out.find("ID=\"centos\"") > 0:
 			return "centos"
+
 def stop():
 	distr = get_dist()
 	if is_apache():
@@ -66,3 +67,4 @@ def run_ab():
 	if len(out) > 0:
 		for s in out.split('\n'):
 			print(s)
+
