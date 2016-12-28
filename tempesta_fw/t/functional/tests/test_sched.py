@@ -33,7 +33,7 @@ class Test:
 		for x in range(1, self.sg_curr):
 			if x == 1:
 				self.cfg.add_option('match ' + 'group' + 
-					    str(x), ' * * *')
+					    	    str(x), ' * * *')
 			self.cfg.add_option('match ' + 'group' + 
 					    str(x),' host eq '+
 					    host + str(x))
@@ -48,6 +48,7 @@ class Test:
 		apache.start()
 		tfw.start()
 		print("tfw started")
+		apache.run_ab(params)
 	
 	def get_name(self):
 		return 'test schedulers'
