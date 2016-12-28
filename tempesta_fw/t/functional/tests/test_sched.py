@@ -4,6 +4,7 @@
 
 import apache
 import conf
+import tfw
 class Test:
 	vh_curr = 1
 	sg_curr = 1
@@ -39,11 +40,11 @@ class Test:
 	def run(self):
 		for x in range(1, 100):
 			self.add_sg(2)
-#		self.add_sg(5, sched='round-robin')
-#		self.add_sg(5, sched='hash')
 		self.add_rules('sched')
-#		capache = conf.ApacheConfig()
-#		capache.add_vhost('sched2.org')
+		apache.stop()
+		apache.start()
+		tfw.start()
+		print("tfw started")
 	
 	def get_name(self):
 		return 'test schedulers'
